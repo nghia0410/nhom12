@@ -113,25 +113,28 @@
                 </div>
               </div>
               <div class="card-body">
-                <form role="form" class="text-start">
+                <form role="form" class="text-start" th:action="@{/sign-in}" method="post">
                   <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-control">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email or username" name="email" required autofocus="autofocus">
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-control">
+                    <div class="input-group input-group-merge">
+                      <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required/>
+                      <span class="input-group-text cursor-pointer" onclick="showPass()"><i class="far fa-eye-slash"></i></span>
+                    </div>
                   </div>
                   <div class="form-check form-switch d-flex align-items-center mb-3">
                     <input class="form-check-input" type="checkbox" id="rememberMe" checked>
                     <label class="form-check-label mb-0 ms-3" for="rememberMe">Remember me</label>
                   </div>
-                  <div class="text-center">
-                    <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
-                  </div>
+                  <form th:action="@{/sign-in}" method="post" class="text-center">
+                    <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
+                  </form>
                   <p class="mt-4 text-sm text-center">
                     Don't have an account?
-                    <a href="/signup" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                    <a href="/sign-up" class="text-primary text-gradient font-weight-bold">Sign up</a>
                   </p>
                 </form>
               </div>

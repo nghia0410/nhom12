@@ -15,9 +15,9 @@ spring:
   jpa:
     hibernate:
 #  Lần đầu tạo thì sử dung lệnh này
-ddl-auto: create
+      ddl-auto: update
 #  Từ lần hai muon cập nhật gì thì luon dùng lệnh này
-# ddl-auto: update
+
 #    show-sql: true
 properties:
   hibernate:
