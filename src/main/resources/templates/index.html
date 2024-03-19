@@ -49,13 +49,13 @@
                         <img src="/client/assets/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-auto ms-md-2 d-lg-none d-block">
                     </a>
                 </li>
-
-                <li class="nav-item dropdown dropdown-hover mx-2">
+                <li class="nav-item dropdown dropdown-hover mx-2" id="signInNavItem">
                     <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" href="/sign-in" id="dropdownMenuDocs" data-bs-toggle="dropdown" aria-expanded="false">Sign In</a>
                 </li>
-                <form th:action="@{/logout}" method="post">
+
+                <form th:action="@{/logout}" method="post" id="logoutForm">
                     <li class="nav-item ms-lg-auto my-auto ms-3 ms-lg-0 mt-2 mt-lg-0">
-                        <button type="submit" class="btn btn-sm  bg-gradient-primary mb-0 me-1 mt-2 mt-md-0">
+                        <button type="submit" class="btn btn-sm bg-gradient-primary mb-0 me-1 mt-2 mt-md-0">
                             <i class="fas fa-sign-out-alt mx-1"></i> Log out
                         </button>
                     </li>
@@ -211,3 +211,37 @@
 </body>
 
 </html>
+<script>
+    function checkLoggedInStatus() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var loggedIn = JSON.parse(xhr.responseText);
+                    toggleAuthentication(loggedIn);
+                } else {
+                    console.error('Error occurred while checking logged-in status.');
+                }
+            }
+        };
+        xhr.open('GET', '/get-logged-in-status');
+        xhr.send();
+    }
+
+    function toggleAuthentication(loggedIn) {
+        var signInNavItem = document.getElementById("signInNavItem");
+        var logoutForm = document.getElementById("logoutForm");
+
+        if (loggedIn) { // Đã đăng nhập, chuyển sang trạng thái đăng xuất
+            signInNavItem.style.display = "none";
+            logoutForm.style.display = "block";
+        } else { // Chưa đăng nhập, chuyển sang trạng thái đăng nhập
+            signInNavItem.style.display = "block";
+            logoutForm.style.display = "none";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        checkLoggedInStatus();
+    });
+</script>

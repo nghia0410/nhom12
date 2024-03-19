@@ -14,9 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,6 +31,14 @@ public class UserControler {
         }
         return "sign-in";
     }
+
+    @GetMapping("/get-logged-in-status")
+    @ResponseBody
+    public boolean getLoggedInStatus() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser");
+    }
+
     @GetMapping("/sign-up")
     public String showRegisterUser(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -40,7 +46,7 @@ public class UserControler {
             return "redirect:/sign-in";
         }
 
-        model.addAttribute("user", new SignUpDTO());
+        model.addAttribute("signupDTO", new SignUpDTO());
         return "sign-up";
     }
     @PostMapping("/sign-up")
@@ -52,7 +58,7 @@ public class UserControler {
         newUser.setUsername(signUpDto.getUsername());
         newUser.setRole(roleRepository.findByRoleName("USER"));
         userRepository.save(newUser);
-        return "redirect:/index";
+        return "redirect:/sign-in";
     }
 
     @GetMapping("/logout")
