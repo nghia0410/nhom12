@@ -14,14 +14,19 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- Material Kit CSS -->
     <link href="/client/assets/css/material-kit.css?v=3.0.0" rel="stylesheet" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&family=Freehand&display=swap');
+    </style>
 </head>
 
 <body>
 <!-- Navbar Transparent -->
 <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent">
     <div class="container">
-        <a class="navbar-brand  text-white " href="https://demos.creative-tim.com/material-kit/presentation" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
-            Material Kit 2
+        <a class="navbar-brand  text-white " href="https://demos.creative-tim.com/material-kit/presentation" alt="logo" style="font-family: Freehand, cursive;
+        font-weight: 400;font-style: normal; font-size:2em">
+            Restaurant Location
         </a>
         <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon mt-2">
@@ -33,12 +38,6 @@
         <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0 ms-lg-12 ps-lg-5" id="navigation">
             <ul class="navbar-nav navbar-nav-hover ms-auto">
                 <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-6">
-                    <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuPages2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
-                        Pages
-                        <img src="/client/assets/img/down-arrow-white.svg" alt="down-arrow" class="arrow ms-auto ms-md-2 d-lg-block d-none">
-                        <img src="/client/assets/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-auto ms-md-2 d-lg-none d-block">
-                    </a>
                 </li>
 
                 <li class="nav-item dropdown dropdown-hover mx-2">
@@ -52,7 +51,6 @@
                 <li class="nav-item dropdown dropdown-hover mx-2" id="signInNavItem">
                     <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" href="/sign-in" id="dropdownMenuDocs" data-bs-toggle="dropdown" aria-expanded="false">Sign In</a>
                 </li>
-
                 <form th:action="@{/logout}" method="post" id="logoutForm">
                     <li class="nav-item ms-lg-auto my-auto ms-3 ms-lg-0 mt-2 mt-lg-0">
                         <button type="submit" class="btn btn-sm bg-gradient-primary mb-0 me-1 mt-2 mt-md-0">
@@ -73,8 +71,8 @@
         <div class="row">
             <div class="col-md-8 mx-auto">
                 <div class="text-center">
-                    <h1 class="text-white">Your title here</h1>
-                    <h3 class="text-white">Subtitle</h3>
+                    <h1 class="text-white">Restaurant Location</h1>
+<!--                    <h3 class="text-white">Subtitle</h3>-->
                 </div>
             </div>
         </div>
@@ -83,6 +81,15 @@
 <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
     <div class="container">
         <div class="section text-center">
+            <div class="row text-center py-2 mt-3">
+                <div class="col-4 mx-auto">
+                    <div class="input-group input-group-dynamic mb-4">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt fa-lg"></i></span>
+                        <input class="form-control" id="searchInput" placeholder="Tìm kiếm địa điểm..." type="text">
+                        <button class="btn btn-outline-primary" type="button" id="searchButton">Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
             <div id="googleMap" style="width: 100%; height: 650px;"></div>
         </div>
     </div>
@@ -211,7 +218,10 @@
 </body>
 
 </html>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsyPzmPpmTEy1Oa5Inpn8deRc3cfUgiv4&callback=initMap" async defer></script>
+<head>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsyPzmPpmTEy1Oa5Inpn8deRc3cfUgiv4&callback=initMap" async defer></script>
+</head>
+<script>
 function checkLoggedInStatus() {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
@@ -247,6 +257,7 @@ function checkLoggedInStatus() {
 </script>
 <script>
     function initMap() {
+
         // Lấy vị trí hiện tại của người dùng
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -254,11 +265,10 @@ function checkLoggedInStatus() {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
-
                 // Khởi tạo bản đồ và đặt vị trí mặc định là vị trí hiện tại của người dùng
                 var map = new google.maps.Map(document.getElementById('googleMap'), {
                     center: userLocation,
-                    zoom: 12 // Có thể thay đổi mức độ phóng to thu nhỏ của bản đồ nếu cần thiết
+                    zoom: 12
                 });
 
                 // Thêm đánh dấu tại vị trí hiện tại của người dùng
@@ -267,10 +277,67 @@ function checkLoggedInStatus() {
                     map: map,
                     title: 'Vị trí của bạn'
                 });
+
+                // Lấy giá trị từ trường tìm kiếm
+                var searchInput = document.getElementById('searchInput').value;
+
+                // Tìm kiếm vị trí
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({'address': searchInput}, function(results, status) {
+                    if (status === 'OK') {
+                        // Tìm thấy vị trí
+                        var location = results[0].geometry.location;
+
+                        // Thêm đánh dấu và di chuyển bản đồ
+                        var marker = new google.maps.Marker({
+                            position: location,
+                            map: map,
+                            title: searchInput
+                        });
+                        map.setCenter(location);
+
+                        // Phóng to bản đồ đến mức độ 15
+                        map.setZoom(15);
+                    } else {
+                        // Lỗi Geocoding
+                        console.log('Lỗi Geocoding:', status);
+                    }
+                });
             });
         } else {
-            // Xử lý trường hợp trình duyệt không hỗ trợ Geolocation API
+            // Trình duyệt không hỗ trợ Geolocation API
             console.log('Trình duyệt không hỗ trợ Geolocation API');
         }
+
+        // Thêm sự kiện click cho button
+        document.getElementById('searchButton').addEventListener('click', function() {
+            // Lấy giá trị từ input
+            var searchInput = document.getElementById('searchInput').value;
+
+            // Tìm kiếm vị trí
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({'address': searchInput}, function(results, status) {
+                if (status === 'OK') {
+                    // Tìm thấy vị trí
+                    var location = results[0].geometry.location;
+
+                    // Di chuyển bản đồ đến vị trí tìm kiếm
+                    map.setCenter(location);
+
+                    // Thêm đánh dấu tại vị trí tìm kiếm
+                    var marker = new google.maps.Marker({
+                        position: location,
+                        map: map,
+                        title: searchInput
+                    });
+                } else {
+                    // Lỗi Geocoding
+                    console.log('Lỗi Geocoding:', status);
+                }
+            });
+        });
+
     }
+    // Gọi hàm initMap khi trang web tải xong
+    window.onload = initMap;
 </script>
