@@ -19,6 +19,8 @@ public class Restaurant {
     private String address;
     // ... other restaurant properties
 
+    private String description;
+
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Food> menu;
 

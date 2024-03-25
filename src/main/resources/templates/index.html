@@ -42,13 +42,13 @@
                 </li>
 
                 <li class="nav-item dropdown dropdown-hover mx-2">
-                    <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuBlocks" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="material-icons opacity-6 me-2 text-md">view_day</i>
-                        Sections
-                        <img src="/client/assets/img/down-arrow-white.svg" alt="down-arrow" class="arrow ms-auto ms-md-2 d-lg-block d-none">
+                    <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuBlocks" data-bs-toggle="dropdown" aria-expanded="false" href="/admin">
+                        <i class="material-icons opacity-6 me-2 text-md">account_circle</i>
+                        Page Admin
                         <img src="/client/assets/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-auto ms-md-2 d-lg-none d-block">
                     </a>
                 </li>
+
                 <li class="nav-item dropdown dropdown-hover mx-2" id="signInNavItem">
                     <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" href="/sign-in" id="dropdownMenuDocs" data-bs-toggle="dropdown" aria-expanded="false">Sign In</a>
                 </li>
@@ -226,7 +226,7 @@
 
 </html>
 <head>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsyPzmPpmTEy1Oa5Inpn8deRc3cfUgiv4&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrRkcBr2rmsuA_3TZMs2jVd8VVUsQ1ms4&callback=initMap" async defer></script>
 </head>
 <script>
 function checkLoggedInStatus() {
@@ -336,6 +336,7 @@ function checkLoggedInStatus() {
     var input = document.getElementById('searchInput');
     var autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.bindTo('bounds',map);
+
 
     google.maps.event.addListener(autocomplete, 'place_changed',function(){
         var place=autocomplete.getPlace();

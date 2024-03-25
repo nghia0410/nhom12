@@ -12,6 +12,5 @@ public class RestaurantDTO {
     private String name;
     private String address;
     private String description;
-    private List<Food> menu;
-
+//    private List<Food> menu;
 }
