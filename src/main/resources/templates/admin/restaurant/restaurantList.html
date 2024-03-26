@@ -67,13 +67,13 @@
             </div>
             <li class="nav-item">
                 <div class="nav-item">
-                <a class="nav-link text-white" href="/admin/restaurants" >
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Restaurant Management</span>
-                </a>
-            </div>
+                    <a class="nav-link text-white" href="/admin/restaurants" >
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Restaurant Management</span>
+                    </a>
+                </div>
             </li>
 
             <li class="nav-item mt-3">
@@ -159,13 +159,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:if="${#lists.isEmpty(restaurantList)}">
+                                <tr th:if="${#lists.isEmpty(restaurants)}">
                                     <td colspan="5" class="text-center">No restaurant found</td> </tr>
-                                <tr th:each="restaurant : ${restaurantList}">
+                                <tr th:each="restaurant : ${restaurants}">
                                     <td th:text="${restaurant.getName()}"></td>
                                     <td  th:text="${restaurant.getAddress()}"></td>
                                     <td  th:text="${restaurant.getDescription()}"></td>
-                                    <td>Button Edit</td>
+                                    <td>
+                                        <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank" th:href="@{/admin/restaurants/update/{id}(id=${restaurant.restaurntid})}">Edit</a>
+                                        <form method="post" th:action="@{/admin/restaurants/delete/{id}(id=${restaurant.restaurntid})}">
+                                            <button type="submit" class="btn btn-outline-primary btn-sm mb-0 me-3">Delete</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -174,6 +179,8 @@
                 </div>
             </div>
         </div>
+
+        <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank" href="/admin/restaurants/create">Create Restaurant</a>
 
         <footer class="footer py-4  ">
             <div class="container-fluid">
